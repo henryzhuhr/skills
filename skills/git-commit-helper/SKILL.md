@@ -1,9 +1,9 @@
 ---
-name: git-commit
+name: git-commit-helper
 description: Use When 提交代码到 git 仓库，使用 commit message
 ---
 
-# git-commit 技能
+# Git Commit Helper
 
 用于提交代码到 git 仓库，使用 commit message。
 
