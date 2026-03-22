@@ -15,21 +15,13 @@
 npx skills add henryzhuhr/skills --list
 ```
 
-检查当前项目中已安装技能的更新
+通过命令安装到当前项目
 
 ```bash
-npx skills check
+npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill <skill-name>
 ```
 
-更新此仓库中的技能
-
-```bash
-# 默认更新所有技能
-npx skills update --project
-
-# 更新指定技能
-npx skills update --project <skill-name>
-```
+更新技能只能通过重新安装的方式更新，安装时会覆盖之前的技能文件，无法使用 `npx skills update` 的原因参考 PR： [#544](https://github.com/vercel-labs/skills/pull/544)、[#637](https://github.com/vercel-labs/skills/pull/637)、[#690](https://github.com/vercel-labs/skills/issues/690)，这是原项目 [vercel-labs/skills](https://github.com/vercel-labs/skills) 没有支持的功能。
 
 ## 技能列表
 
@@ -42,20 +34,16 @@ npx skills update --project <skill-name>
 
 ### 📝 git-commit-helper
 
-> [`SKILL.md`](./skills/git-commit-helper/SKILL.md)
-
-Use When 提交代码到 git 仓库，使用 commit message
+[`SKILL.md`](./skills/git-commit-helper/SKILL.md)：Use When 提交代码到 git 仓库，使用 commit message
 
 ```bash
-npx skills add henryzhuhr/skills --copy --agent claude-code --skill git-commit-helper -y
+npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-commit-helper
 ```
 
 ### 🌳 git-worktree-helper
 
-> [`SKILL.md`](./skills/git-worktree-helper/SKILL.md)
-
-检查、创建和管理 Git worktree，用于并行分支开发。适用于需要按本地分支模式批量创建 worktree、把 worktree 放到仓库同级目录、避免为已在其他目录检出的分支重复创建 worktree、核对分支与 worktree 路径映射，或在多个分支上修改前先准备隔离工作区的场景。
+[`SKILL.md`](./skills/git-worktree-helper/SKILL.md)：检查、创建和管理 Git worktree，用于并行分支开发。适用于需要按本地分支模式批量创建 worktree、把 worktree 放到仓库同级目录、避免为已在其他目录检出的分支重复创建 worktree、核对分支与 worktree 路径映射，或在多个分支上修改前先准备隔离工作区的场景。
 
 ```bash
-npx skills add henryzhuhr/skills --copy --agent claude-code --skill git-worktree-helper -y
+npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-worktree-helper
 ```

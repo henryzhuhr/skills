@@ -47,7 +47,7 @@ npx skills init skills/<skill-name>
   ```markdown
   ### 📝 <skill-name>
 
-  > [`SKILL.md`](./skills/<skill-name>/SKILL.md)
+  [`SKILL.md`](./skills/<skill-name>/SKILL.md)：<技能简介>
   ```
 
 - 你需要检查 `README.md` 是否符合上述规范，如果不符合，你需要自动修正它，使其符合规范。但是需要注意，自动修正只能修改 [`## 技能列表`](./README.md#技能列表) 部分
