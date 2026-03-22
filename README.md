@@ -47,3 +47,11 @@ npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-commi
 ```bash
 npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-worktree-helper
 ```
+
+### 🐙 github-helper
+
+[`SKILL.md`](./skills/github-helper/SKILL.md)：使用 GitHub CLI（gh）帮助查看和管理 GitHub 账号、仓库、Pull Request 等信息。适用于查看当前认证用户有哪些仓库、查询某个 PR 的状态、检查 review / CI / mergeability、查看当前仓库元信息，或在执行 GitHub 操作前先确认鉴权与仓库上下文的场景。
+
+```bash
+npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill github-helper
+```
