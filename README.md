@@ -3,6 +3,7 @@
 ## 目录
 
 - [快速开始](#快速开始)
+- [编写规范](#编写规范)
 - [技能列表](#技能列表)
   - [git-commit-helper](#-git-commit-helper)
   - [git-worktree-helper](#-git-worktree-helper)
@@ -23,6 +24,12 @@ npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill <skill-na
 
 更新技能只能通过重新安装的方式更新，安装时会覆盖之前的技能文件，无法使用 `npx skills update` 的原因参考 PR： [#544](https://github.com/vercel-labs/skills/pull/544)、[#637](https://github.com/vercel-labs/skills/pull/637)、[#690](https://github.com/vercel-labs/skills/issues/690)，这是原项目 [vercel-labs/skills](https://github.com/vercel-labs/skills) 没有支持的功能。
 
+## 编写规范
+
+- [Skill 创建与编写规范](./docs/skill-authoring.md)
+- [Starter 模板](./templates/skill-starter/SKILL.md.template)
+- 评测资产建议按 `evals/<skill-name>/` 组织，不放入 skill 安装目录
+
 ## 技能列表
 
 > 💡 安装技能的注意事项：
@@ -30,7 +37,7 @@ npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill <skill-na
 > - 不加 `-g` 参数将 `Installation scope` 设置为 `Project`，表示技能将安装在当前项目中
 > - 使用 `--copy` 参数将 `Installation method` 设置为 `Copy`，表示技能将被复制到当前项目
 
-- 使用 `--agent claude-code` 参数将自动设置安装目录为 `./claude/skills`
+- 使用 `--agent claude-code` 参数将自动设置安装目录为 `./.claude/skills`
 
 ### 📝 git-commit-helper
 
