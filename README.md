@@ -6,6 +6,7 @@
 - [技能列表](#技能列表)
   - [git-commit-helper](#-git-commit-helper)
   - [git-worktree-helper](#-git-worktree-helper)
+  - [version-tag-helper](#-git-tag-helper)
 
 ## 快速开始
 
@@ -46,4 +47,12 @@ npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-commi
 
 ```bash
 npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-worktree-helper
+```
+
+### 🏷️ git-tag-helper
+
+[`SKILL.md`](./skills/git-tag-helper/SKILL.md)：给 Git 分支打标签，支持语义化版本命名、轻量标签和附注标签、标签管理和推送。
+
+```bash
+npx skills add henryzhuhr/skills --copy --agent claude-code -y --skill git-tag-helper
 ```
