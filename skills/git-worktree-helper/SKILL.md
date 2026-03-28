@@ -38,7 +38,7 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
     | 分支 | 路径 |
     | ---- | ---- |
     | main | /path/to/repo/ |
-    | feature/xxx | /path/to/repo-worktrees/feature~xxx/ |
+    | feature/xxx | /path/to/repo/.worktree/feature~xxx/ |
     ```
 
 3. 询问用户目标范围，明确区分本地分支和远程分支，确认用户想要创建 worktree 的分支列表。你要提供一些可选项供用户选择，例如
@@ -58,27 +58,27 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 
 ### 2. 选择目标目录布局
 
-- 默认批量布局：在仓库根目录同级创建一个名为 `<repo-name>-worktrees` 的目录。
-- 每个 worktree 目录名由分支名推导而来，把 `/` 替换成 `~`。
+- 默认批量布局：在当前项目的 `.worktree` 目录下为每个分支创建一个 worktree，路径由 `<project_name>-<branch-name>` 组成，其中 `<project_name>` 是当前 Git 仓库所在目录的名称，`<branch-name>` 是分支名经过特殊字符替换后的版本。
+- 为了避免分支名中存在 `/` 导致的路径层级过深问题，默认使用 `_` 替代 `/`，例如 `feature/login` 会被映射成 `feature_login`。
 - 如果用户指定了基础目录，优先使用用户指定值而不是默认值。
 - 如果用户已经明确给出目标路径，直接使用该路径，不必再推导默认布局。
 
 目录结构示例：
 
 ```bash
-/path/to/
-├── repo/ # 当前项目路径
-└── repo-worktrees/
+.
+├── .git/ # 当前项目路径
+└── .worktree/
     ├── skill~git-worktree/ # 对应[技能]开发分支 skill/git-worktree
     └── feature~login/      # 对应[功能]开发分支 feature/login
 ```
 
-> 默认使用 `~` 替代 `/`，以降低与原分支名中连字符 `-` 混用时的路径碰撞风险。
+> 默认使用 `_` 替代 `/`，以降低与原分支名中连字符 `-` 混用时的路径碰撞风险。
 
 路径映射示例：
 
-- `skill/git-worktree` -> `repo-worktrees/skill~git-worktree`
-- `feature/login` -> `repo-worktrees/feature~login`
+- `skill/git-worktree` -> `.worktree/skill_git-worktree`
+- `feature/login` -> `.worktree/feature_login`
 
 创建前检查：
 
@@ -99,8 +99,8 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 git branch --list 'skill/*'
 git branch -r --list 'origin/skill/*'
 git worktree list --porcelain
-git worktree add /path/to/repo-worktrees/skill~git-worktree skill/git-worktree
-git worktree add /path/to/repo-worktrees/feature~login feature/login
+git worktree add /path/to/repo/.worktree/skill_git-worktree skill/git-worktree
+git worktree add /path/to/repo/.worktree/feature_login feature/login
 ```
 
 ### 4. 验证结果
@@ -121,14 +121,14 @@ git worktree add /path/to/repo-worktrees/feature~login feature/login
 2. 如果用户确认需要切换，那么你需要自动完成切换目录的操作，例如：
 
    ```bash
-   cd /path/to/repo-worktrees/skill~git-worktree
+   cd /path/to/repo/.worktree/skill_git-worktree
    ```
 
 3. 切换完成后，你需要再次确认**分支状态**和**当前所在目录**，必须告诉用户，例如：
 
    ```bash
    当前的分支是 skill/git-worktree
-   当前目录是 /path/to/repo-worktrees/skill~git-worktree
+   当前目录是 /path/to/repo/.worktree/skill_git-worktree
    ```
 
 ## 安全规则
