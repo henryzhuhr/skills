@@ -37,8 +37,8 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 
     | 分支 | 路径 |
     | ---- | ---- |
-    | main | /path/to/repo/ |
-    | feature/xxx | /path/to/repo/.worktree/feature~xxx/ |
+    | main | /path/to/worktree/ |
+    | feature/xxx | /path/to/worktree-feature~xxx/ |
     ```
 
 3. 询问用户目标范围，明确区分本地分支和远程分支，确认用户想要创建 worktree 的分支列表。你要提供一些可选项供用户选择，例如
@@ -58,7 +58,7 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 
 ### 2. 选择目标目录布局
 
-- 默认批量布局：在当前项目的 `.worktrees` 目录下为每个分支创建一个 worktree，路径由 `<project_name>-<branch-name>` 组成，其中 `<project_name>` 是当前 Git 仓库所在目录的名称，`<branch-name>` 是分支名经过特殊字符替换后的版本。
+- 默认批量布局：在 `/var/dev` 目录下为每个分支创建一个 worktree，路径由 `<project_name>-<branch-name>` 组成，其中 `<project_name>` 是当前 Git 仓库所在目录的名称，`<branch-name>` 是分支名经过特殊字符替换后的版本。
 - 为了避免分支名中存在 `/` 导致的路径层级过深问题，默认使用 `_` 替代 `/`，例如 `feature/login` 会被映射成 `feature_login`。
 - 如果用户指定了基础目录，优先使用用户指定值而不是默认值。
 - 如果用户已经明确给出目标路径，直接使用该路径，不必再推导默认布局。
@@ -66,19 +66,17 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 目录结构示例：
 
 ```bash
-.
-├── .git/ # 当前项目路径
-└── .worktrees/
-    ├── skill~git-worktree/ # 对应[技能]开发分支 skill/git-worktree
-    └── feature~login/      # 对应[功能]开发分支 feature/login
+/var/dev/
+├── <project_name>-skill~git-worktree/ # 对应[技能]开发分支 skill/git-worktree
+└── <project_name>-feature~login/      # 对应[功能]开发分支 feature/login
 ```
 
 > 默认使用 `_` 替代 `/`，以降低与原分支名中连字符 `-` 混用时的路径碰撞风险。
 
 路径映射示例：
 
-- `skill/git-worktree` -> `.worktrees/skill_git-worktree`
-- `feature/login` -> `.worktrees/feature_login`
+- `skill/git-worktree` -> `/var/dev/<project_name>-skill_git-worktree`
+- `feature/login` -> `/var/dev/<project_name>-feature_login`
 
 创建前检查：
 
@@ -90,9 +88,8 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 
 - 批量创建时，先列出命中的本地分支，再逐个推导目标路径，形成明确的创建计划。
 - 当范围超过一个分支时，先用自然语言汇总计划，至少说明命中的分支、对应路径、哪些分支会被跳过。
-- 创建的时候必须使用相对路径（相对于当前 Git 仓库路径），例如 `git worktree add .worktrees/feature_name feature_name`，而不是使用绝对路径。
-- 确认计划后，再逐个运行 `git worktree add <relative_path> <branch>` 正式执行。
-- 如果只缺一个分支，直接使用 `git worktree add <relative_path> <branch>` 即可。
+- 确认计划后，再逐个运行 `git worktree add <path> <branch>` 正式执行。
+- 如果只缺一个分支，直接使用 `git worktree add <path> <branch>` 即可。
 
 示例：
 
@@ -100,8 +97,8 @@ description: 检查、创建和管理 Git worktree（工作树），用于并行
 git branch --list 'skill/*'
 git branch -r --list 'origin/skill/*'
 git worktree list --porcelain
-git worktree add .worktrees/skill_git-worktree skill/git-worktree
-git worktree add .worktrees/feature_login feature/login
+git worktree add /var/dev/<project_name>-skill_git-worktree skill/git-worktree
+git worktree add /var/dev/<project_name>-feature_login feature/login
 ```
 
 ### 4. 验证结果
@@ -122,14 +119,14 @@ git worktree add .worktrees/feature_login feature/login
 2. 如果用户确认需要切换，那么你需要自动完成切换目录的操作，例如：
 
    ```bash
-   cd .worktrees/skill_git-worktree
+   cd /var/dev/<project_name>-skill_git-worktree
    ```
 
 3. 切换完成后，你需要再次确认**分支状态**和**当前所在目录**，必须告诉用户，例如：
 
    ```bash
    当前的分支是 skill/git-worktree
-   当前目录是 .worktrees/skill_git-worktree
+   当前目录是 /var/dev/<project_name>-skill_git-worktree
    ```
 
 ## 安全规则
